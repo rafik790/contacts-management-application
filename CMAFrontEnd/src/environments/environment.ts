@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    API:"/assets/used-data.json"
+    API:"https://localhost:7115/api"
 };

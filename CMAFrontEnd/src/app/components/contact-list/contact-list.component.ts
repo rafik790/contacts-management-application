@@ -23,6 +23,9 @@ export class ContactListComponent implements OnInit {
     windowClass: 'md-class',
   };
 
+  public pageSize = 5;
+  public currentPageNumber: number = 1;
+  public totalNumberOfrecords: number = -1;
   constructor(private contactService: ContactService,
     private modalService: NgbModal,
     private confirmPopup: ConfirmPopupService,
@@ -34,7 +37,7 @@ export class ContactListComponent implements OnInit {
     
     this.initializeFetch();
     setTimeout(() => {
-      this.fetchData();
+      this.fetchData(1, false,'');
     }, 200);
   }
 
@@ -42,18 +45,27 @@ export class ContactListComponent implements OnInit {
     this.dataListObs = this.subjectMain.pipe(
       debounce(() => timer(this.searchFieldValueOutputDelay)),
       switchMap((dataFilter: any) => {
-        return this.contactService.getContactList().pipe((
+        return this.contactService.getContactList(dataFilter.pageNumber,dataFilter.pageSize,dataFilter.searchTerm).pipe((
           map((resp: any) => {
-            return resp;
+            this.totalNumberOfrecords = resp.data.hitCount;
+            this.currentPageNumber = dataFilter.pageNumber;
+            return resp.data.contacts
           })
         ))
       })
     );
   }
 
-  fetchData() {
+  fetchData(pageNumber: number, debounceNeeded: boolean,searchPattern: string,) {
     let dataFilter = {
-
+      pageNumber: pageNumber,
+      pageSize: this.pageSize,
+      searchTerm: encodeURIComponent(searchPattern),
+    };
+    if (debounceNeeded) {
+      this.searchFieldValueOutputDelay = 500;
+    } else {
+      this.searchFieldValueOutputDelay = 5;
     }
     this.subjectMain.next(dataFilter);
   }
@@ -64,7 +76,7 @@ export class ContactListComponent implements OnInit {
     modalRef.componentInstance.contactData = null;
     modalRef.componentInstance.title = "Add Contact";
     modalRef.componentInstance.refreshParent.subscribe((resp: any) => {
-      this.fetchData();
+      this.fetchData(1, false,'');
     });
   }
 
@@ -74,7 +86,8 @@ export class ContactListComponent implements OnInit {
     modalRef.componentInstance.contactData = contact;
     modalRef.componentInstance.title = "Edit Contact";
     modalRef.componentInstance.refreshParent.subscribe((resp: any) => {
-      this.fetchData();
+      let searchTxt='';
+      this.fetchData(this.currentPageNumber,false,searchTxt);
     });
   }
   onDeleteContact(contact: ContactModel) {
@@ -92,8 +105,8 @@ export class ContactListComponent implements OnInit {
   callDeleteuser(contactID: number) {
     this.contactService.deleteContact(contactID).subscribe({
       next: (resp: any) => {
-        this.fetchData();
-        this.toaster.success("Successfully delete");
+        this.fetchData(1,false,'');
+        this.toaster.success(resp.message);
       },
       error: (error: any) => {
         this.toaster.error(error.error.message);
