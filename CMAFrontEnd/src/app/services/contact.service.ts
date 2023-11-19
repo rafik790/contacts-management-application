@@ -22,4 +22,9 @@ export class ContactService {
     return this.http.put<any>(url,JSON.stringify(payload));
   }
 
+  deleteContact(contactID:any) {
+    let url: string =  `${environment.API}/contacts/${contactID}`;
+    return this.http.delete<any>(url);
+  }
+
 }

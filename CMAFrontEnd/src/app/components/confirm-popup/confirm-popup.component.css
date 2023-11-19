@@ -1,0 +1,16 @@
+.popup-header {
+    background-color: #229bff;
+    border-bottom: 0px solid #e3e6f0;
+    padding: 20px 20px 19px 20px;
+    position: relative;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.popup-title {
+    display: flex;
+    flex-flow: row;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}

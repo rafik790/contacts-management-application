@@ -4,6 +4,7 @@ import { Observable, Subject, debounce, map, switchMap, timer } from 'rxjs';
 import { ContactModel } from 'src/app/models/contact.model';
 import { ContactService } from 'src/app/services/contact.service';
 import { ContactAddEditComponent } from '../contact-add-edit/contact-add-edit.component';
+import { ConfirmPopupService } from 'src/app/services/confirm-popup.service';
 
 @Component({
   selector: 'app-contact-list',
@@ -22,7 +23,8 @@ export class ContactListComponent implements OnInit {
   };
 
   constructor(private contactService: ContactService,
-    private modalService: NgbModal,) {
+    private modalService: NgbModal,
+    private confirmPopup: ConfirmPopupService,) {
 
   }
 
@@ -47,13 +49,13 @@ export class ContactListComponent implements OnInit {
   }
 
   fetchData() {
-    let dataFilter={
+    let dataFilter = {
 
     }
     this.subjectMain.next(dataFilter);
   }
-  
-  onAddNewContact(){
+
+  onAddNewContact() {
     this.ngbModalOptions.windowClass = 'big-size-popup';
     const modalRef = this.modalService.open(ContactAddEditComponent, this.ngbModalOptions);
     modalRef.componentInstance.contactData = null;
@@ -63,7 +65,7 @@ export class ContactListComponent implements OnInit {
     });
   }
 
-  onEditContact(contact:ContactModel){
+  onEditContact(contact: ContactModel) {
     this.ngbModalOptions.windowClass = 'big-size-popup';
     const modalRef = this.modalService.open(ContactAddEditComponent, this.ngbModalOptions);
     modalRef.componentInstance.contactData = contact;
@@ -73,7 +75,26 @@ export class ContactListComponent implements OnInit {
     });
   }
   onDeleteContact(contact: ContactModel) {
+    let options = {
+      title: `Are you sure, you want to <b>delete</b> the contact?`
+    };
 
+    this.confirmPopup.confirm(options).then((res: boolean) => {
+      if (res) {
+        this.callDeleteuser(contact.id);
+      }
+    });
+  }
+
+  callDeleteuser(contactID: number) {
+    this.contactService.deleteContact(contactID).subscribe({
+      next: (resp: any) => {
+        this.fetchData();
+      },
+      error: (error: any) => {
+        console.log(error.error.message);
+      }
+    });
   }
 
 }

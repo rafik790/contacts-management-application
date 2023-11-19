@@ -9,12 +9,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CustomHttpInterceptor } from './interceptors/custom-http.interceptor';
+import { ConfirmPopupComponent } from './components/confirm-popup/confirm-popup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ContactListComponent,
-    ContactAddEditComponent
+    ContactAddEditComponent,
+    ConfirmPopupComponent
   ],
   imports: [
     BrowserModule,
