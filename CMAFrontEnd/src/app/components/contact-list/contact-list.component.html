@@ -1,4 +1,9 @@
-<div class="row mt-5">
+<div class="row">
+    <div class="col col-lg-10">
+        <button type="button" class="btn btn-success" (click)="onAddNewContact()">New</button>
+    </div>
+</div>
+<div class="row mt-1">
     <div class="col col-lg-12">
         <table class="table table-bordered">
             <thead>
@@ -17,8 +22,8 @@
                     <td>{{contact.firstName}}</td>
                     <td>{{contact.lastName}}</td>
                     <td>{{contact.email}}</td>
-                    <td><button type="button" class="btn btn-primary" (click)="onEditUser(contact)">Edit</button></td>
-                    <td><button type="button" class="btn btn-danger" (click)="onDeleteUser(contact)">Delete</button></td>
+                    <td><button type="button" class="btn btn-primary" (click)="onEditContact(contact)">Edit</button></td>
+                    <td><button type="button" class="btn btn-danger" (click)="onDeleteContact(contact)">Delete</button></td>
                 </tr>
             </tbody>
         </table>

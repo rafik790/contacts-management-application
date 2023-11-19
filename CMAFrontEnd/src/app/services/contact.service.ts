@@ -12,5 +12,14 @@ export class ContactService {
     let url:string =`${environment.API}`;
     return this.http.get<any>(url);
   }
+  addNewContact(payload: any) {
+    let url: string =  `${environment.API}/contacts`;
+    return this.http.post<any>(url,JSON.stringify(payload));
+  }
+  
+  updateContact(contactID:number,payload: any) {
+    let url: string =  `${environment.API}/contacts/${contactID}`;
+    return this.http.put<any>(url,JSON.stringify(payload));
+  }
 
 }

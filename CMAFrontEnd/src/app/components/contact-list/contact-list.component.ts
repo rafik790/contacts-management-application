@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject, debounce, map, switchMap, timer } from 'rxjs';
 import { ContactModel } from 'src/app/models/contact.model';
 import { ContactService } from 'src/app/services/contact.service';
+import { ContactAddEditComponent } from '../contact-add-edit/contact-add-edit.component';
 
 @Component({
   selector: 'app-contact-list',
@@ -11,8 +13,16 @@ import { ContactService } from 'src/app/services/contact.service';
 export class ContactListComponent implements OnInit {
   subjectMain = new Subject<any>();
   searchFieldValueOutputDelay: number = 1;
-  public dataListObs: Observable<ContactModel[]>;
-  constructor(private contactService: ContactService) {
+  dataListObs: Observable<ContactModel[]>;
+  ngbModalOptions: NgbModalOptions = {
+    backdrop: 'static',
+    keyboard: false,
+    centered: true,
+    windowClass: 'md-class',
+  };
+
+  constructor(private contactService: ContactService,
+    private modalService: NgbModal,) {
 
   }
 
@@ -42,11 +52,27 @@ export class ContactListComponent implements OnInit {
     }
     this.subjectMain.next(dataFilter);
   }
-
-  onEditUser(contact:ContactModel){
-
+  
+  onAddNewContact(){
+    this.ngbModalOptions.windowClass = 'big-size-popup';
+    const modalRef = this.modalService.open(ContactAddEditComponent, this.ngbModalOptions);
+    modalRef.componentInstance.contactData = null;
+    modalRef.componentInstance.title = "Add Contact";
+    modalRef.componentInstance.refreshParent.subscribe((resp: any) => {
+      this.fetchData();
+    });
   }
-  onDeleteUser(contact: ContactModel) {
+
+  onEditContact(contact:ContactModel){
+    this.ngbModalOptions.windowClass = 'big-size-popup';
+    const modalRef = this.modalService.open(ContactAddEditComponent, this.ngbModalOptions);
+    modalRef.componentInstance.contactData = contact;
+    modalRef.componentInstance.title = "Edit Contact";
+    modalRef.componentInstance.refreshParent.subscribe((resp: any) => {
+      this.fetchData();
+    });
+  }
+  onDeleteContact(contact: ContactModel) {
 
   }
 

@@ -31,7 +31,7 @@ html {
     padding-bottom: 70px;
   }
   
-  .app-create-user-popup .modal-dialog {
+  .big-size-popup .modal-dialog {
     max-width: 800px;
     width: 90%;
   }
