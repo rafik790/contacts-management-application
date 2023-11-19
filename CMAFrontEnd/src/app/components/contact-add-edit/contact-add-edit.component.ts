@@ -37,6 +37,8 @@ export class ContactAddEditComponent implements OnInit {
   get email() { return this.contactForm.get("email"); }
 
   ngOnInit(): void {
+    console.log("contactData::",this.contactData);
+
     if (this.contactData) {
       this.contactID = this.contactData.id
       this.firstName?.setValue(this.contactData.firstName);
@@ -51,7 +53,7 @@ export class ContactAddEditComponent implements OnInit {
     let payload = this.contactForm.value;
     console.log(payload);
 
-    if (this.contactForm) {
+    if (this.contactData) {
       this.editContact(payload);
     } else {
       this.addContact(payload);
@@ -63,7 +65,7 @@ export class ContactAddEditComponent implements OnInit {
       next: (resp: any) => {
         this._refresh.next(resp);
         this.activeModal.close('Override click');
-        this.toaster.success("Successfully added");
+        this.toaster.success(resp.message);
       },
       error: (error: any) => {
         this._refresh.next(error.error);
@@ -77,7 +79,7 @@ export class ContactAddEditComponent implements OnInit {
       next: (resp: any) => {
         this._refresh.next(resp);
         this.activeModal.close('Override click');
-        this.toaster.success("Successfully updated");
+        this.toaster.success(resp.message);
       },
       error: (error: any) => {
         this._refresh.next(error.error);
