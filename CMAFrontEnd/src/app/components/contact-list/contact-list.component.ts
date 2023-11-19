@@ -67,8 +67,7 @@ export class ContactListComponent implements OnInit {
       pageSize: this.pageSize,
       searchTerm: encodeURIComponent(searchPattern),
     };
-    console.log("dataFilter::", dataFilter);
-
+    
     if (debounceNeeded) {
       this.searchFieldValueOutputDelay = 500;
     } else {
@@ -125,6 +124,7 @@ export class ContactListComponent implements OnInit {
     let searchTxt = this.searchForm.value.searchTxt.trim();
     this.fetchData(pageNumber, false, searchTxt);
   }
+
   onSearch(event: Event) {
     let searchTxt = this.searchForm.value.searchTxt.trim();
     if (!(searchTxt.length == 0 || searchTxt.length >= 3)) {
