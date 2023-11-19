@@ -5,6 +5,7 @@ import { ContactModel } from 'src/app/models/contact.model';
 import { ContactService } from 'src/app/services/contact.service';
 import { ContactAddEditComponent } from '../contact-add-edit/contact-add-edit.component';
 import { ConfirmPopupService } from 'src/app/services/confirm-popup.service';
+import { ToasterService } from 'src/app/services/toaster.service';
 
 @Component({
   selector: 'app-contact-list',
@@ -24,11 +25,13 @@ export class ContactListComponent implements OnInit {
 
   constructor(private contactService: ContactService,
     private modalService: NgbModal,
-    private confirmPopup: ConfirmPopupService,) {
+    private confirmPopup: ConfirmPopupService,
+    private toaster: ToasterService) {
 
   }
 
   ngOnInit(): void {
+    
     this.initializeFetch();
     setTimeout(() => {
       this.fetchData();
@@ -78,7 +81,7 @@ export class ContactListComponent implements OnInit {
     let options = {
       title: `Are you sure, you want to <b>delete</b> the contact?`
     };
-
+    
     this.confirmPopup.confirm(options).then((res: boolean) => {
       if (res) {
         this.callDeleteuser(contact.id);
@@ -90,9 +93,10 @@ export class ContactListComponent implements OnInit {
     this.contactService.deleteContact(contactID).subscribe({
       next: (resp: any) => {
         this.fetchData();
+        this.toaster.success("Successfully delete");
       },
       error: (error: any) => {
-        console.log(error.error.message);
+        this.toaster.error(error.error.message);
       }
     });
   }

@@ -1,4 +1,4 @@
-.toastr-container {
+.toaster-container {
     pointer-events: none;
     top: 0%;
     left: 50%;
@@ -15,7 +15,7 @@
     position: relative;
 }
 
-.hs-page-title {
+.page-title {
     display: flex;
     flex-flow: row;
     flex-direction: row;

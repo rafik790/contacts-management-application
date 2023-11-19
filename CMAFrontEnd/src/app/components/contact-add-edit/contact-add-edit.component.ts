@@ -4,23 +4,25 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject } from 'rxjs';
 import { ContactModel } from 'src/app/models/contact.model';
 import { ContactService } from 'src/app/services/contact.service';
+import { ToasterService } from 'src/app/services/toaster.service';
 
 @Component({
   selector: 'app-contact-add-edit',
   templateUrl: './contact-add-edit.component.html',
   styleUrls: ['./contact-add-edit.component.css']
 })
-export class ContactAddEditComponent implements OnInit{
+export class ContactAddEditComponent implements OnInit {
   _refresh = new BehaviorSubject<any>({});
   @Output() refreshParent = this._refresh.asObservable();
 
   @Input() public contactData: ContactModel;
   @Input() public title: string;
   public contactForm: FormGroup;
-  private contactID:number;
+  private contactID: number;
   constructor(public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private contactService: ContactService,) {
+    private contactService: ContactService,
+    private toaster: ToasterService) {
 
     this.contactForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.maxLength(100)]],
@@ -48,7 +50,7 @@ export class ContactAddEditComponent implements OnInit{
     }
     let payload = this.contactForm.value;
     console.log(payload);
-    
+
     if (this.contactForm) {
       this.editContact(payload);
     } else {
@@ -58,24 +60,28 @@ export class ContactAddEditComponent implements OnInit{
 
   addContact(payload: any) {
     this.contactService.addNewContact(payload).subscribe({
-      next:(resp:any)=>{
+      next: (resp: any) => {
         this._refresh.next(resp);
         this.activeModal.close('Override click');
+        this.toaster.success("Successfully added");
       },
-      error:(error:any)=>{
+      error: (error: any) => {
         this._refresh.next(error.error);
+        this.toaster.error(error.error.message);
       }
     })
   }
 
   editContact(payload: any) {
-    this.contactService.updateContact(this.contactID,payload).subscribe({
-      next:(resp:any)=>{
+    this.contactService.updateContact(this.contactID, payload).subscribe({
+      next: (resp: any) => {
         this._refresh.next(resp);
         this.activeModal.close('Override click');
+        this.toaster.success("Successfully updated");
       },
-      error:(error:any)=>{
+      error: (error: any) => {
         this._refresh.next(error.error);
+        this.toaster.error(error.error.message);
       }
     });
   }

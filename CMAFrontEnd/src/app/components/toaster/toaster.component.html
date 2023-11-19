@@ -1,0 +1,7 @@
+<div class="toaster-wrapper" [class]="toasterData?.toastrClass" [style.opacity]="setOpacity">
+    <i class="toaster-icon fa-solid" [class]="toasterData?.iconClass"></i>
+    <button class="toaster-close-button" (click)="closeToaster();setOpacity=0;">
+        <span>×</span>
+    </button>
+    <div class="toaster-title">{{ toasterData?.text }}</div>
+</div>
