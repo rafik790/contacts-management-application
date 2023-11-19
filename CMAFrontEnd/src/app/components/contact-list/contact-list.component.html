@@ -2,6 +2,19 @@
     <div class="col col-lg-10">
         <button type="button" class="btn btn-success" (click)="onAddNewContact()">New</button>
     </div>
+    <div class="col col-lg-2">
+        <form class="d-flex" [formGroup]="searchForm">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+              formControlName="searchTxt"
+              (ngModelChange)="onSearch($event)"
+              placeholder="Search"
+            />
+          </form>
+    </div>
 </div>
 <div class="row mt-1">
     <div class="col col-lg-12">

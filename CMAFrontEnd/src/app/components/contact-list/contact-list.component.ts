@@ -6,6 +6,7 @@ import { ContactService } from 'src/app/services/contact.service';
 import { ContactAddEditComponent } from '../contact-add-edit/contact-add-edit.component';
 import { ConfirmPopupService } from 'src/app/services/confirm-popup.service';
 import { ToasterService } from 'src/app/services/toaster.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-contact-list',
@@ -26,11 +27,15 @@ export class ContactListComponent implements OnInit {
   public pageSize = 5;
   public currentPageNumber: number = 1;
   public totalNumberOfrecords: number = -1;
+  searchForm: FormGroup;
   constructor(private contactService: ContactService,
     private modalService: NgbModal,
     private confirmPopup: ConfirmPopupService,
-    private toaster: ToasterService) {
-
+    private toaster: ToasterService,
+    private fb: FormBuilder) {
+    this.searchForm = this.fb.group({
+      searchTxt: [''],
+    });
   }
 
   ngOnInit(): void {
@@ -62,7 +67,7 @@ export class ContactListComponent implements OnInit {
       pageSize: this.pageSize,
       searchTerm: encodeURIComponent(searchPattern),
     };
-    console.log("dataFilter::",dataFilter);
+    console.log("dataFilter::", dataFilter);
 
     if (debounceNeeded) {
       this.searchFieldValueOutputDelay = 500;
@@ -88,7 +93,7 @@ export class ContactListComponent implements OnInit {
     modalRef.componentInstance.contactData = contact;
     modalRef.componentInstance.title = "Edit Contact";
     modalRef.componentInstance.refreshParent.subscribe((resp: any) => {
-      let searchTxt = '';
+      let searchTxt = this.searchForm.value.searchTxt.trim();
       this.fetchData(this.currentPageNumber, false, searchTxt);
     });
   }
@@ -117,8 +122,15 @@ export class ContactListComponent implements OnInit {
   }
 
   getPageData(pageNumber: number) {
-    let searchTxt = "";
+    let searchTxt = this.searchForm.value.searchTxt.trim();
     this.fetchData(pageNumber, false, searchTxt);
+  }
+  onSearch(event: Event) {
+    let searchTxt = this.searchForm.value.searchTxt.trim();
+    if (!(searchTxt.length == 0 || searchTxt.length >= 3)) {
+      return;
+    }
+    this.fetchData(1, true, searchTxt);
   }
 
 }
