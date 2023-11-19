@@ -34,10 +34,10 @@ export class ContactListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
     this.initializeFetch();
     setTimeout(() => {
-      this.fetchData(1, false,'');
+      this.fetchData(1, false, '');
     }, 200);
   }
 
@@ -45,7 +45,7 @@ export class ContactListComponent implements OnInit {
     this.dataListObs = this.subjectMain.pipe(
       debounce(() => timer(this.searchFieldValueOutputDelay)),
       switchMap((dataFilter: any) => {
-        return this.contactService.getContactList(dataFilter.pageNumber,dataFilter.pageSize,dataFilter.searchTerm).pipe((
+        return this.contactService.getContactList(dataFilter.pageNumber, dataFilter.pageSize, dataFilter.searchTerm).pipe((
           map((resp: any) => {
             this.totalNumberOfrecords = resp.data.hitCount;
             this.currentPageNumber = dataFilter.pageNumber;
@@ -56,12 +56,14 @@ export class ContactListComponent implements OnInit {
     );
   }
 
-  fetchData(pageNumber: number, debounceNeeded: boolean,searchPattern: string,) {
+  fetchData(pageNumber: number, debounceNeeded: boolean, searchPattern: string,) {
     let dataFilter = {
       pageNumber: pageNumber,
       pageSize: this.pageSize,
       searchTerm: encodeURIComponent(searchPattern),
     };
+    console.log("dataFilter::",dataFilter);
+
     if (debounceNeeded) {
       this.searchFieldValueOutputDelay = 500;
     } else {
@@ -76,7 +78,7 @@ export class ContactListComponent implements OnInit {
     modalRef.componentInstance.contactData = null;
     modalRef.componentInstance.title = "Add Contact";
     modalRef.componentInstance.refreshParent.subscribe((resp: any) => {
-      this.fetchData(1, false,'');
+      this.fetchData(1, false, '');
     });
   }
 
@@ -86,15 +88,15 @@ export class ContactListComponent implements OnInit {
     modalRef.componentInstance.contactData = contact;
     modalRef.componentInstance.title = "Edit Contact";
     modalRef.componentInstance.refreshParent.subscribe((resp: any) => {
-      let searchTxt='';
-      this.fetchData(this.currentPageNumber,false,searchTxt);
+      let searchTxt = '';
+      this.fetchData(this.currentPageNumber, false, searchTxt);
     });
   }
   onDeleteContact(contact: ContactModel) {
     let options = {
       title: `Are you sure, you want to <b>delete</b> the contact?`
     };
-    
+
     this.confirmPopup.confirm(options).then((res: boolean) => {
       if (res) {
         this.callDeleteuser(contact.id);
@@ -105,13 +107,18 @@ export class ContactListComponent implements OnInit {
   callDeleteuser(contactID: number) {
     this.contactService.deleteContact(contactID).subscribe({
       next: (resp: any) => {
-        this.fetchData(1,false,'');
+        this.fetchData(1, false, '');
         this.toaster.success(resp.message);
       },
       error: (error: any) => {
         this.toaster.error(error.error.message);
       }
     });
+  }
+
+  getPageData(pageNumber: number) {
+    let searchTxt = "";
+    this.fetchData(pageNumber, false, searchTxt);
   }
 
 }

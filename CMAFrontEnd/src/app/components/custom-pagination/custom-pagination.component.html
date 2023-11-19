@@ -1,0 +1,12 @@
+<nav class="custom-pagination" *ngIf="totalRecords > recordsPerPage">
+    <ul>
+
+        <li *ngFor="let item of pages" [ngClass]="{ active: activePage === item,  hide: item < hideFirst ||
+       item > hideLast,   noAction: item === hideFirst || item === hideLast }" (click)="onClickPage(item)"
+            [attr.index]="item">
+            <a href="javascript:void(0);">
+                {{ item === hideFirst || item === hideLast ? "..." : item }}
+            </a>
+        </li>
+    </ul>
+</nav>

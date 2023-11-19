@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CustomHttpInterceptor } from './interceptors/custom-http.interceptor';
 import { ConfirmPopupComponent } from './components/confirm-popup/confirm-popup.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
+import { CustomPaginationComponent } from './components/custom-pagination/custom-pagination.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ToasterComponent } from './components/toaster/toaster.component';
     ContactListComponent,
     ContactAddEditComponent,
     ConfirmPopupComponent,
-    ToasterComponent
+    ToasterComponent,
+    CustomPaginationComponent
   ],
   imports: [
     BrowserModule,

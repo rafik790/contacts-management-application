@@ -17,6 +17,7 @@ namespace CMABackEnd.Services
         {
             var contact = new ContactModel();
             contact.id = await this._repository.GetMaxContactId();
+            contact.firstName = req.FirstName;
             contact.lastName = req.LastName;
             contact.email = req.Email;
 
