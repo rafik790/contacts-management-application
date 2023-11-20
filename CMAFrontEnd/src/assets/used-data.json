@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "firstName": "Rafik",
+    "lastName": "Mondal",
+    "email": "rafik@yopmail.com"
+  },
+  {
+    "id": 2,
+    "firstName": "Liban",
+    "lastName": "Mondal",
+    "email": "liban@yopmail.com"
+  },
+  {
+    "id": 3,
+    "firstName": "Lisan",
+    "lastName": "Mondal",
+    "email": "lisan.mondal@gmail.com"
+  }
+]

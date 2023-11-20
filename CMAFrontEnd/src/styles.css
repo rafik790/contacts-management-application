@@ -1,0 +1,84 @@
+/* You can add global styles to this file, and also import other style files */
+@import "/node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+html {
+  font-family: sans-serif;
+  line-height: 1.15;
+  min-height: 100%;
+  position: relative;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+  background-color: #fff;
+  color: #2f383f;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  line-height: 1.2em;
+  margin: 0;
+  text-align: left;
+}
+
+.container {
+  padding-top: 0px;
+  padding-bottom: 70px;
+}
+
+.container-fluid {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+.big-size-popup .modal-dialog {
+  max-width: 800px;
+  width: 90%;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.btn-wrapper {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.error-msg {
+  background-color: rgba(222, 16, 79, 15%);
+  border: 1px solid rgba(222, 16, 79, 15%);
+  border-radius: 2px;
+  color: rgba(222, 16, 79, 1);
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  margin: 5px auto;
+  margin: 18px auto 15px auto;
+  padding: 8px 10px;
+  position: relative;
+}
+
+.row {
+  display: flex;
+  flex-flow: row;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+
+.form-group {
+  margin-bottom: 30px;
+  position: relative;
+  width: 100%;
+}
+
+label {
+  color: #82888c;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 16px;
+  margin-bottom: 5px;
+}

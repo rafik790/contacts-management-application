@@ -1,0 +1,44 @@
+.toaster-container {
+    pointer-events: none;
+    top: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    position: fixed;
+    z-index: 999999;
+}
+
+.page-header {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 10px 10px 10px 10px;
+    position: relative;
+}
+
+.page-title {
+    display: flex;
+    flex-flow: row;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    /*padding-left: 30%;*/
+}
+
+img {
+    border-style: none;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+.page-header h4 {
+    padding-left: 10px;
+    max-width: calc(100% - 20px);
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}

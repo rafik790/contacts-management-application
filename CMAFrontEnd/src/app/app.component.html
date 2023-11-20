@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="page-header center">
+    <div class="page-title">
+      <img src="/assets/icons/ingular-image.png" alt="" class="img-rounded">
+      <h4>Contacts App</h4>
+    </div>
+  </div>
+  <app-contact-list></app-contact-list>
+</div>
+<div class="toaster-container">
+  <ng-container *ngIf="toasterData?.text?.length > 0">
+    <app-toaster [@toastrAnimation] [toasterData]="toasterData" (closeAction)="closeAction($event)">
+
+    </app-toaster>
+  </ng-container>
+</div>
