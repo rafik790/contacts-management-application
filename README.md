@@ -1,6 +1,6 @@
 # Contacts Management Application (CMA)
 
-This is a CMA(Contacts Management Application) built with SOA Architecture. I used Angular 16.1.0 for building front-end and .NET Core 6.0 to build backend.
+This is a CMA(Contacts Management Application) built by following SOA Architecture. I used Angular 16.1.0 for building front-end and .NET Core 6.0 to build backend.
 
 ## Design Decisions and Application Structure
 
