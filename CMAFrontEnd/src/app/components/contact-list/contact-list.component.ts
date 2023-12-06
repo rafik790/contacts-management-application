@@ -31,6 +31,7 @@ export class ContactListComponent implements OnInit {
   public currentPageNumber: number = 1;
   public totalNumberOfrecords: number = -1;
   searchForm: FormGroup;
+  private lastSelectedID:number=0;
   constructor(private contactService: ContactService,
     private modalService: NgbModal,
     private confirmPopup: ConfirmPopupService,
@@ -138,7 +139,13 @@ export class ContactListComponent implements OnInit {
     this.fetchData(1, true, searchTxt);
   }
 
+ 
   onViewDetails(contact:ContactModel){
+    if(this.lastSelectedID!=0 && this.lastSelectedID!=contact.id ){
+      let lstRow = document.getElementById(`row_${this.lastSelectedID}`) as HTMLElement;
+      lstRow.classList.remove("table-active");
+    }
+
     let row = document.getElementById(`row_${contact.id}`) as HTMLElement;
     let isRowAlreadySelected = false;
     row.classList.forEach((emelemnt:any)=>{
@@ -146,7 +153,8 @@ export class ContactListComponent implements OnInit {
         isRowAlreadySelected = true;
       }
     });
-    
+
+    this.lastSelectedID = contact.id;
     console.log("isRowAlreadySelected::",isRowAlreadySelected);
     this.childDetails.clear();
     if(!isRowAlreadySelected){
@@ -156,6 +164,7 @@ export class ContactListComponent implements OnInit {
     }else{
       row.classList.remove("table-active");
     }
+    
   }
 
 }
