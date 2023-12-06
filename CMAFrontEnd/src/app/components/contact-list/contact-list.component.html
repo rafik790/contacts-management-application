@@ -30,14 +30,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let contact of dataListObs|async">
+                <tr *ngFor="let contact of dataListObs|async" (click)="onViewDetails(contact)" id="row_{{contact.id}}">
                     <td>{{contact.id}}</td>
                     <td>{{contact.firstName}}</td>
                     <td>{{contact.lastName}}</td>
                     <td>{{contact.email}}</td>
-                    <td><button type="button" class="btn btn-primary" (click)="onEditContact(contact)">Edit</button>
+                    <td><button type="button" class="btn btn-primary" (click)="onEditContact($event,contact)">Edit</button>
                     </td>
-                    <td><button type="button" class="btn btn-danger" (click)="onDeleteContact(contact)">Delete</button>
+                    <td><button type="button" class="btn btn-danger" (click)="onDeleteContact($event,contact)">Delete</button>
                     </td>
                 </tr>
             </tbody>
@@ -51,4 +51,7 @@
         </div>
     </div>
 
+</div>
+<div class="row mt-1">
+    <ng-template #childDetails></ng-template>
 </div>

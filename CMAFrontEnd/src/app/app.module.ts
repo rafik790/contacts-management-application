@@ -12,6 +12,7 @@ import { CustomHttpInterceptor } from './interceptors/custom-http.interceptor';
 import { ConfirmPopupComponent } from './components/confirm-popup/confirm-popup.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
 import { CustomPaginationComponent } from './components/custom-pagination/custom-pagination.component';
+import { ContactDetailsComponent } from './compontents/contact-details/contact-details.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { CustomPaginationComponent } from './components/custom-pagination/custom
     ContactAddEditComponent,
     ConfirmPopupComponent,
     ToasterComponent,
-    CustomPaginationComponent
+    CustomPaginationComponent,
+    ContactDetailsComponent
   ],
   imports: [
     BrowserModule,

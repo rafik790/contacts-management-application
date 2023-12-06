@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject, debounce, map, switchMap, timer } from 'rxjs';
 import { ContactModel } from 'src/app/models/contact.model';
@@ -7,6 +7,7 @@ import { ContactAddEditComponent } from '../contact-add-edit/contact-add-edit.co
 import { ConfirmPopupService } from 'src/app/services/confirm-popup.service';
 import { ToasterService } from 'src/app/services/toaster.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ContactDetailsComponent } from 'src/app/compontents/contact-details/contact-details.component';
 
 @Component({
   selector: 'app-contact-list',
@@ -14,6 +15,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./contact-list.component.css']
 })
 export class ContactListComponent implements OnInit {
+  @ViewChild("childDetails",{read:ViewContainerRef} ) childDetails: ViewContainerRef;
+
   subjectMain = new Subject<any>();
   searchFieldValueOutputDelay: number = 1;
   dataListObs: Observable<ContactModel[]>;
@@ -86,7 +89,8 @@ export class ContactListComponent implements OnInit {
     });
   }
 
-  onEditContact(contact: ContactModel) {
+  onEditContact(event: Event,contact: ContactModel) {
+    event.stopPropagation();
     this.ngbModalOptions.windowClass = 'big-size-popup';
     const modalRef = this.modalService.open(ContactAddEditComponent, this.ngbModalOptions);
     modalRef.componentInstance.contactData = contact;
@@ -96,7 +100,8 @@ export class ContactListComponent implements OnInit {
       this.fetchData(this.currentPageNumber, false, searchTxt);
     });
   }
-  onDeleteContact(contact: ContactModel) {
+  onDeleteContact(event: Event,contact: ContactModel) {
+    event.stopPropagation();
     let options = {
       title: `Are you sure, you want to <b>delete</b> the contact?`
     };
@@ -131,6 +136,26 @@ export class ContactListComponent implements OnInit {
       return;
     }
     this.fetchData(1, true, searchTxt);
+  }
+
+  onViewDetails(contact:ContactModel){
+    let row = document.getElementById(`row_${contact.id}`) as HTMLElement;
+    let isRowAlreadySelected = false;
+    row.classList.forEach((emelemnt:any)=>{
+      if(emelemnt=="table-active"){
+        isRowAlreadySelected = true;
+      }
+    });
+    
+    console.log("isRowAlreadySelected::",isRowAlreadySelected);
+    this.childDetails.clear();
+    if(!isRowAlreadySelected){
+      row.classList.add("table-active");
+      const comRef = this.childDetails.createComponent(ContactDetailsComponent);
+      comRef.instance.contactData = contact;
+    }else{
+      row.classList.remove("table-active");
+    }
   }
 
 }
