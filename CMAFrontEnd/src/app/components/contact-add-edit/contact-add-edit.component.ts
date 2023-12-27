@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject } from 'rxjs';
+import { passwordValidator } from 'src/app/custom.validator';
 import { ContactModel } from 'src/app/models/contact.model';
 import { ContactService } from 'src/app/services/contact.service';
 import { ToasterService } from 'src/app/services/toaster.service';
@@ -27,7 +28,8 @@ export class ContactAddEditComponent implements OnInit {
     this.contactForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.maxLength(100)]],
       lastName: ['', [Validators.required, Validators.maxLength(100)]],
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
+      password:['',[Validators.required,passwordValidator()]]
     });
   }
 
@@ -35,6 +37,7 @@ export class ContactAddEditComponent implements OnInit {
   get firstName() { return this.contactForm.get("firstName"); }
   get lastName() { return this.contactForm.get("lastName"); }
   get email() { return this.contactForm.get("email"); }
+  get password() { return this.contactForm.get("password"); }
 
   ngOnInit(): void {
     console.log("contactData::",this.contactData);

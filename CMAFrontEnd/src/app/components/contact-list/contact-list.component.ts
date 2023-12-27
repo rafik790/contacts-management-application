@@ -15,7 +15,7 @@ import { ContactDetailsComponent } from 'src/app/compontents/contact-details/con
   styleUrls: ['./contact-list.component.css']
 })
 export class ContactListComponent implements OnInit {
-  @ViewChild("childDetails",{read:ViewContainerRef} ) childDetails: ViewContainerRef;
+  @ViewChild("childDetails", { read: ViewContainerRef }) childDetails: ViewContainerRef;
 
   subjectMain = new Subject<any>();
   searchFieldValueOutputDelay: number = 1;
@@ -31,7 +31,7 @@ export class ContactListComponent implements OnInit {
   public currentPageNumber: number = 1;
   public totalNumberOfrecords: number = -1;
   searchForm: FormGroup;
-  private lastSelectedID:number=0;
+  private lastSelectedID: number = 0;
   constructor(private contactService: ContactService,
     private modalService: NgbModal,
     private confirmPopup: ConfirmPopupService,
@@ -66,12 +66,21 @@ export class ContactListComponent implements OnInit {
   }
 
   fetchData(pageNumber: number, debounceNeeded: boolean, searchPattern: string,) {
+    if(this.lastSelectedID>0){
+      let lstRow = document.getElementById(`row_${this.lastSelectedID}`) as HTMLElement;
+      lstRow.classList.remove("table-active");
+      this.lastSelectedID=0;
+      this.childDetails.clear();
+    }
+   
+
+    
     let dataFilter = {
       pageNumber: pageNumber,
       pageSize: this.pageSize,
       searchTerm: encodeURIComponent(searchPattern),
     };
-    
+
     if (debounceNeeded) {
       this.searchFieldValueOutputDelay = 500;
     } else {
@@ -90,7 +99,7 @@ export class ContactListComponent implements OnInit {
     });
   }
 
-  onEditContact(event: Event,contact: ContactModel) {
+  onEditContact(event: Event, contact: ContactModel) {
     event.stopPropagation();
     this.ngbModalOptions.windowClass = 'big-size-popup';
     const modalRef = this.modalService.open(ContactAddEditComponent, this.ngbModalOptions);
@@ -101,7 +110,7 @@ export class ContactListComponent implements OnInit {
       this.fetchData(this.currentPageNumber, false, searchTxt);
     });
   }
-  onDeleteContact(event: Event,contact: ContactModel) {
+  onDeleteContact(event: Event, contact: ContactModel) {
     event.stopPropagation();
     let options = {
       title: `Are you sure, you want to <b>delete</b> the contact?`
@@ -127,6 +136,7 @@ export class ContactListComponent implements OnInit {
   }
 
   getPageData(pageNumber: number) {
+   
     let searchTxt = this.searchForm.value.searchTxt.trim();
     this.fetchData(pageNumber, false, searchTxt);
   }
@@ -139,32 +149,32 @@ export class ContactListComponent implements OnInit {
     this.fetchData(1, true, searchTxt);
   }
 
- 
-  onViewDetails(contact:ContactModel){
-    if(this.lastSelectedID!=0 && this.lastSelectedID!=contact.id ){
+
+  onViewDetails(contact: ContactModel) {
+    if (this.lastSelectedID != 0 && this.lastSelectedID != contact.id) {
       let lstRow = document.getElementById(`row_${this.lastSelectedID}`) as HTMLElement;
       lstRow.classList.remove("table-active");
     }
 
     let row = document.getElementById(`row_${contact.id}`) as HTMLElement;
     let isRowAlreadySelected = false;
-    row.classList.forEach((emelemnt:any)=>{
-      if(emelemnt=="table-active"){
+    row.classList.forEach((emelemnt: any) => {
+      if (emelemnt == "table-active") {
         isRowAlreadySelected = true;
       }
     });
 
     this.lastSelectedID = contact.id;
-    console.log("isRowAlreadySelected::",isRowAlreadySelected);
+    console.log("isRowAlreadySelected::", isRowAlreadySelected);
     this.childDetails.clear();
-    if(!isRowAlreadySelected){
+    if (!isRowAlreadySelected) {
       row.classList.add("table-active");
       const comRef = this.childDetails.createComponent(ContactDetailsComponent);
       comRef.instance.contactData = contact;
-    }else{
+    } else {
       row.classList.remove("table-active");
     }
-    
+
   }
 
 }

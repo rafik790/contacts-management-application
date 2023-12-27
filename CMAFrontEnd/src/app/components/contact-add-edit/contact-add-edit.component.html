@@ -58,6 +58,23 @@
                     </div>
                 </div>
             </div>
+            <div class="col-xl-6 col-lg6 col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="password" class="control-label">
+                        Password
+                    </label>
+                    <input type="text" class="form-control" formControlName="password"
+                        name="password" />
+                    <div *ngIf="password?.touched && !password?.valid">
+                        <div class="error-msg" *ngIf="password?.errors?.required">
+                            Enter Password
+                        </div>
+                        <div class="error-msg" *ngIf="password?.errors?.badpassword">
+                            Password is not valid
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="btn-wrapper text-right">
             <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>&nbsp;&nbsp;
